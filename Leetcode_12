@@ -1,0 +1,49 @@
+class Solution(object):
+    def intToRoman(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        r = ""
+        while(num>0):
+            if (num>=1000):
+                num = num-1000
+                r+='M'
+            elif(num>899 and num<1000):
+                r+='CM'
+                num = num-900
+            elif(num>=500 and num <900):
+                r+='D'
+                num=num-500
+            elif(num > 399 and num <500):
+                r+='CD'
+                num = num-400
+            elif(num >=100 and num <400):
+                num = num-100
+                r+='C'
+            elif (num>89 and num<100):
+                r+='XC'
+                num = num-90
+            elif (num>=50 and num<90):
+                r+='L'
+                num = num-50
+            elif (num>39 and num<50):
+                r+='XL'
+                num = num-40
+            elif (num>=10 and num<40):
+                r+='X'
+                num = num-10
+            elif (num==9):
+                r+='IX'
+                num = num-9
+            elif (num>=5 and num<9):
+                r+='V'
+                num = num-5
+            elif (num==4):
+                r+='IV'
+                num = num-4
+            else:
+                r+='I'
+                num = num-1
+                
+        return r
