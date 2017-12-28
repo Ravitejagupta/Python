@@ -1,0 +1,14 @@
+def fun2(a,subset,i):
+  if i == len(a):
+    print(subset)
+  else:
+    subset[i] = None
+    fun2(a,subset,i+1)
+    subset[i] = a[i]
+    fun2(a,subset,i+1)
+
+def all_subsets(a):
+  subset = [None]*len(a)
+  fun2(a,subset,0)
+    
+all_subsets([1,2,3])
