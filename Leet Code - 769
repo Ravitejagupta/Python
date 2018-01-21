@@ -1,0 +1,20 @@
+class Solution:
+    def maxChunksToSorted(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: int
+        """
+        d = {}
+        arr_sorted = sorted(arr)
+        for i in range(len(arr_sorted)):
+            d[arr_sorted[i]] = i
+        c = -1
+        ans = 0
+        for j in range(len(arr)):
+            c = max(c,d[arr[j]])
+            if c == j:
+                ans+=1
+                c = -1
+        return ans
+            
+                
