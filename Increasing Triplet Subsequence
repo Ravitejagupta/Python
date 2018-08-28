@@ -1,0 +1,25 @@
+class Solution:
+    def increasingTriplet(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        if len(nums) < 3:
+            retuFalse
+        d = {}
+        c = 1
+        low = high = nums[0]
+        for i in nums[1:]:
+            if i <= low:
+                low = i
+            elif i >= high:
+                if low < high and c == 1:
+                    c += 1
+                elif i > high:
+                    c += 1
+                high = i
+            elif (i > low and i <= high):
+                high = i
+            if c == 3:
+                return True
+        return False            
