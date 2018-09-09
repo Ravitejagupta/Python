@@ -1,0 +1,9 @@
+if len(A) < 1:
+            return A
+        r = []
+        for i in range(len(A[0])):
+            c = []
+            for j in range(len(A)):
+                c.append(A[j][i])
+            r.append(c)
+        return r
