@@ -1,0 +1,89 @@
+import math
+
+class Node:
+    def __init__(self,index,val):
+        self.val = val
+        self.index = index
+        self.children = {}
+
+def isprime(num):
+    if num == 1:
+        return False
+    if num == 2 or num == 3:
+        return True
+    for i in range(2,math.ceil(math.sqrt(num))+2):
+        if num%i == 0:
+            return False
+    return True
+
+def numofprimes(Node):
+    if not Node:
+        return 0
+    if isprime(Node.val):
+        return  1 + sum(numofprimes(child) for child in list(Node.children.values()))
+    else:
+        return sum(numofprimes(child) for child in list(Node.children.values()))
+        
+def primeQuery(n, first, second, values, queries):
+    tree = {}
+    Node_array = {}
+    constructed = set()
+    for i in range(len(first)):
+        if first[i] == 1 or second[i] == 1:
+            if 1 in tree:
+                if first[i] == 1:
+                    arr = tree[1]
+                    arr.append(second[i])
+                    tree[1] = arr
+                else:
+                    arr = tree[1]
+                    arr.append(first[i])
+                    tree[1] = arr
+            else:
+                if first[i] == 1:
+                    tree[1] = [second[i]]
+                else:
+                    tree[1] = [first[i]]
+        elif first[i] in tree or second[i] in tree:
+            if first[i] in tree:
+                arr = tree[first[i]]
+                arr.append(second[i])
+                tree[first[i]] = arr
+            if second[i] in tree:
+                arr = tree[second[i]]
+                arr.append(first[i])
+                tree[second[i]] = arr
+        else:
+            tree[first[i]] = [second[i]]
+    #contruction
+    root = Node(1,values[0])
+    Node_array[1] = root
+    for child in tree[1]:
+        child_node = Node(child, values[child-1])
+        root.children[child] = child_node
+        Node_array[child] = child_node
+    for branch in tree:
+        if branch != 1:
+            if branch in Node_array:
+                for leaf in tree[branch]:
+                    child_node = Node(leaf, values[leaf-1])
+                    Node_array[branch].children[leaf] = child_node
+                    Node_array[leaf] = child_node
+            else:
+                outsider = Node(branch, values[branch-1])
+                Node_array[branch] = outsider
+                for leaf in tree[branch]:
+                    if leaf in Node_array:
+                        Node_array[leaf].children[branch] = outsider
+                    else:
+                        child_node = Node(leaf, values[leaf-1])
+                        outsider.children[leaf] = child_node
+                        Node_array[leaf] = child_node
+    '''for i in Node_array:
+        print(i)
+        print(Node_array[i].children)'''
+    result = []
+    for query in queries:
+        count = numofprimes(Node_array[query])
+        result.append(count)
+    return result
