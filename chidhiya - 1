@@ -1,0 +1,38 @@
+# Complete the closest function below.
+def closest(s, queries):
+    d = {}
+    d1 = {}
+    result = []
+    for index,val in enumerate(list(s)):
+        if val in d:
+            l = len(d[val])
+            h = d[val]
+            h[index] = l
+            d[val] = h
+            arr = d1[val]
+            arr.append(index)
+            d1[val] = arr
+        else:
+            h = {}
+            h[index] = 0
+            d[val] = h
+            d1[val] = [index]
+    for query in queries:
+        if len(d[s[query]]) == 1:
+            result.append(-1)
+        else:
+            h = d[s[query]]
+            l = d1[s[query]]
+            index = h[query]
+            if index == len(l) - 1:
+                result.append(l[index-1])
+            elif index == 0:
+                result.append(l[1])
+            else:
+                if abs(l[index-1] - query) <= abs(l[index+1] -query):
+                    result.append(l[index-1])
+                else:
+                    result.append(l[index+1])
+    return result
+
+print(closest('hackerrank',[4,1,6,8]))
